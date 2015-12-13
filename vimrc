@@ -10,18 +10,55 @@ Plugin 'VundleVim/Vundle.vim'
 
 " Plugins
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'lork/EnhCommentify.vim'
-Plugin 'lork/vim-snippets-css'
-Plugin 'lork/yate-syntax'
+let g:solarized_visibility = 'low'
+
+Plugin 'i2r/EnhCommentify.vim'
+" function! EnhCommentifyCallback(ft)
+    " if a:ft == 'stylus'
+        " let b:ECcommentOpen = '/*'
+        " let b:ECcommentClose = '*/'
+    " endif
+" endfunction
+" let g:EnhCommentifyCallbackExists = 'yes'
+let g:EnhCommentifyMultiPartBlocks = 'yes' 
+let g:EnhCommentifyRespectIndent = 'yes'
+let g:EnhCommentifyPretty = 'yes'
+let g:EnhCommentifyUseSyntax = 'yes'
+
+Plugin 'i2r/yate-syntax'
+au BufRead,BufNewFile *.yate setf yate
+"au BufRead *.yate set filetype=javascript | set filetype=html
+
 Plugin 'pangloss/vim-javascript'
+let g:javascript_enable_domhtmlcss=1
+
 Plugin 'Raimondi/delimitMate'
+let delimitMate_expand_cr = 1
+set backspace=indent,eol,start
+
 Plugin 'romainl/flattened'
+
 Plugin 'sheerun/vim-polyglot'
-Plugin 'SirVer/ultisnips'
+let g:polyglot_disabled = ['css']
+let g:jsx_ext_required = 0
+
+" Actual version don't work with vim 7.3
+" Plugin 'SirVer/ultisnips'
+" so there is 3.0
+Plugin 'i2r/ultisnips'
+Plugin 'i2r/vim-snippets-css'
+
 Plugin 'tmhedberg/matchit'
 Plugin 'tpope/vim-commentary'
+
 Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-pathogen'
+function! StatuslineFugitive()
+    if exists('*fugitive#head')
+        let _ = fugitive#head(7)
+        return strlen(_) ? 'Դ '._ : ''
+    endif
+    return ''
+endfunction
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -39,8 +76,8 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 " *****************************************
 
-" Use english
-lan en_US.utf8
+" Use english if available
+silent! lan en_US.utf8
 
 " Show line numbers
 set number
@@ -51,7 +88,7 @@ set statusline=\                " Begin Padding
 set statusline+=%F\ %m%r%h%w    " Path to the File
 set statusline+=\ 
 set statusline+=%=              " Push to Right
-set statusline+=%{fugitive#statusbranch()}
+set statusline+=%{StatuslineFugitive()}
 set statusline+=\ \ \ 
 set statusline+=%{&ff}          " Format
 set statusline+=\ \ \ 
@@ -162,8 +199,7 @@ set t_Co=256 " 256 colors
 syntax on " syntax highlighting
 " set background=dark 
 set background=light
-let g:solarized_visibility = 'low'
-colorscheme solarized
+silent! colorscheme solarized
 " colorscheme flattened_light
 
 " Cursorline {{{
@@ -356,39 +392,6 @@ noremap Т N
 noremap Ь M
 noremap Б <
 noremap Ю >
-
-" Bundles settings
-" ****************
-
-" delimitMate.vim ================================================
-let delimitMate_expand_cr = 1
-set backspace=indent,eol,start
-
-" EnhCommentify Settings =========================================
-" function! EnhCommentifyCallback(ft)
-    " if a:ft == 'stylus'
-        " let b:ECcommentOpen = '/*'
-        " let b:ECcommentClose = '*/'
-    " endif
-" endfunction
-" let g:EnhCommentifyCallbackExists = 'yes'
-let g:EnhCommentifyMultiPartBlocks = 'yes' 
-let g:EnhCommentifyRespectIndent = 'yes'
-let g:EnhCommentifyPretty = 'yes'
-let g:EnhCommentifyUseSyntax = 'yes'
-
-" POLYGLOT Disable javascript from  package =====================
-let g:polyglot_disabled = ['css']
-
-" JAVASCRIPT Enable HTML & CSS for JS files =====================
-let g:javascript_enable_domhtmlcss=1
-
-" JSX React syntax in JS files ==================================
-let g:jsx_ext_required = 0
-
-" YATE file type ================================================
-au BufRead,BufNewFile *.yate setf yate
-"au BufRead *.yate set filetype=javascript | set filetype=html
 
 " Terminal helpers 
 " ****************
