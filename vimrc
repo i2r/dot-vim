@@ -20,7 +20,7 @@ Plugin 'i2r/EnhCommentify.vim'
     " endif
 " endfunction
 " let g:EnhCommentifyCallbackExists = 'yes'
-let g:EnhCommentifyMultiPartBlocks = 'yes' 
+let g:EnhCommentifyMultiPartBlocks = 'yes'
 let g:EnhCommentifyRespectIndent = 'yes'
 let g:EnhCommentifyPretty = 'yes'
 let g:EnhCommentifyUseSyntax = 'yes'
@@ -39,7 +39,7 @@ set backspace=indent,eol,start
 Plugin 'romainl/flattened'
 
 Plugin 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['css']
+let g:polyglot_disabled = ['javascript'] " I like pangloss's version
 let g:jsx_ext_required = 0
 
 " Actual version don't work with vim 7.3
@@ -59,6 +59,17 @@ function! StatuslineFugitive()
     endif
     return ''
 endfunction
+
+Plugin 'scrooloose/syntastic'
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_loc_list_height = 5
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_stl_format = ' Line %F (Σ %t) '
+let g:syntastic_error_symbol = '✖︎✖︎'
+let g:syntastic_warning_symbol = '∙∙'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -88,6 +99,10 @@ set statusline=\                " Begin Padding
 set statusline+=%F\ %m%r%h%w    " Path to the File
 set statusline+=\ 
 set statusline+=%=              " Push to Right
+set statusline+=\ \ \ 
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 set statusline+=%{StatuslineFugitive()}
 set statusline+=\ \ \ 
 set statusline+=%{&ff}          " Format
@@ -111,6 +126,7 @@ set statusline+=β\              " Buffer Title
 set statusline+=%n              " Buffer Number
 set statusline+=\               " End Padding
 set laststatus=2
+
 
 " Buffers
 " ******************************************
@@ -142,19 +158,19 @@ let g:netrw_browse_split = 0
 
 " Backups
 " *****************************************
-set backupdir=~/.vim/tmp/backup// " backups
-set directory=~/.vim/tmp/swap//   " swap files
+set backupdir=~/.vim/tmp/backup " backups
+set directory=~/.vim/tmp/swap   " swap files
 set backup                        " enable backups
 
 " Persistent file history. WARNING: VIM 7.3+
 " ********************************************
-set undodir=~/.vim/tmp/undo//
+set undodir=~/.vim/tmp/undo
 set undofile
 
 " Restore last cursor position
-set viewdir=~/.vim/tmp/view//
-au BufWinLeave * mkview
-au BufReadPost * loadview " do it on BufReadPost to make vim file +lineNumber work
+set viewdir=~/.vim/tmp/view
+au BufWinLeave ?* if &l:modifiable | mkview | endif
+au BufReadPost ?* if &l:modifiable | loadview | endif  " do it on BufReadPost to make vim file +lineNumber work
 
 
 " Highlight VCS conflict markers
@@ -197,7 +213,7 @@ call Tabstyle_spaces_4()
 " **********************************************************************
 set t_Co=256 " 256 colors
 syntax on " syntax highlighting
-" set background=dark 
+" set background=dark
 set background=light
 silent! colorscheme solarized
 " colorscheme flattened_light
@@ -213,7 +229,7 @@ augroup cline
     au InsertEnter * set nocursorline
     au InsertLeave * set cursorline
 augroup END
- 
+
 
 " Indenting
 " *******************************************************************
@@ -225,21 +241,21 @@ au BufLeave *.css set cindent " on cindent in other files
 
 " LESS
 au BufRead,BufNewFile *.less setlocal nocindent " off cindent in LESS files
-au BufRead,BufNewFile *.less call Tabstyle_spaces() 
+au BufRead,BufNewFile *.less call Tabstyle_spaces()
 au BufLeave *.less set cindent " on cindent in other files
-au BufLeave *.less call Tabstyle_spaces_4() 
+au BufLeave *.less call Tabstyle_spaces_4()
 
 " Stylus
 au BufRead,BufNewFile *.styl setlocal nocindent " off cindent in STYLUS files
-au BufRead,BufNewFile *.styl call Tabstyle_spaces() 
+au BufRead,BufNewFile *.styl call Tabstyle_spaces()
 au BufLeave *.styl set cindent
-au BufLeave *.styl call Tabstyle_spaces_4() 
+au BufLeave *.styl call Tabstyle_spaces_4()
 
 " Jade
 au BufRead,BufNewFile *.jade setlocal nocindent
-au BufRead,BufNewFile *.jade call Tabstyle_spaces() 
+au BufRead,BufNewFile *.jade call Tabstyle_spaces()
 au BufLeave *.jade set cindent
-au BufLeave *.jade call Tabstyle_spaces_4() 
+au BufLeave *.jade call Tabstyle_spaces_4()
 
 filetype indent on
 
@@ -247,8 +263,8 @@ filetype indent on
 " ******************************
 set hlsearch  " highlight search
 set incsearch  " Incremental search, search as you type
-set ignorecase " Ignore case when searching 
-set smartcase " Ignore case when searching lowercase 
+set ignorecase " Ignore case when searching
+set smartcase " Ignore case when searching lowercase
 noremap / :noh<RETURN>/
 noremap ? :noh<RETURN>?
 
@@ -393,7 +409,7 @@ noremap Ь M
 noremap Б <
 noremap Ю >
 
-" Terminal helpers 
+" Terminal helpers
 " ****************
 
 " Paste Mode Switcher
