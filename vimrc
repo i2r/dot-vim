@@ -27,7 +27,6 @@ let g:EnhCommentifyUseSyntax = 'yes'
 
 Plugin 'i2r/yate-syntax'
 au BufRead,BufNewFile *.yate setf yate
-"au BufRead *.yate set filetype=javascript | set filetype=html
 
 Plugin 'pangloss/vim-javascript'
 let g:javascript_enable_domhtmlcss=1
@@ -71,6 +70,8 @@ let g:syntastic_stl_format = ' Line %F (Σ %t) '
 let g:syntastic_error_symbol = '✖︎✖︎'
 let g:syntastic_warning_symbol = '∙∙'
 
+Plugin 'tpope/vim-sensible'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
@@ -99,10 +100,11 @@ set statusline=\                " Begin Padding
 set statusline+=%F\ %m%r%h%w    " Path to the File
 set statusline+=\ 
 set statusline+=%=              " Push to Right
-set statusline+=\ \ \ 
+set statusline+=\ \ 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+set statusline+=\ \ 
 set statusline+=%{StatuslineFugitive()}
 set statusline+=\ \ \ 
 set statusline+=%{&ff}          " Format
@@ -179,7 +181,7 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " Tabs
 " *********************************************************
-"set sta " a <Tab> in an indent inserts 'shiftwidth' spaces
+set sta " a <Tab> in an indent inserts 'shiftwidth' spaces
 
 function! Tabstyle_tabs()
 	" Using 4 column tabs
@@ -205,6 +207,7 @@ function! Tabstyle_spaces_4()
     set expandtab
 endfunction
 
+" My default: 4 spaces
 " call Tabstyle_tabs()
 " call Tabstyle_spaces()
 call Tabstyle_spaces_4()
@@ -236,28 +239,14 @@ augroup END
 set ai " Automatically set the indent of a new line (local to buffer)
 set si " smartindent (local to buffer)
 set cindent
-au BufRead,BufNewFile *.css setlocal nocindent " off cindent in CSS files
-au BufLeave *.css set cindent " on cindent in other files
 
-" LESS
-au BufRead,BufNewFile *.less setlocal nocindent " off cindent in LESS files
-au BufRead,BufNewFile *.less call Tabstyle_spaces()
-au BufLeave *.less set cindent " on cindent in other files
-au BufLeave *.less call Tabstyle_spaces_4()
+" Disable cindent for CSS, STYLUS, LESS and JADE
+au BufRead,BufNewFile,BufEnter *.css,*.styl,*.less,*.jade setlocal nocindent " off cindent in CSS files
+au BufLeave *.css,*.styl,*.less,*.jade set cindent " on cindent in other files
 
-" Stylus
-au BufRead,BufNewFile *.styl setlocal nocindent " off cindent in STYLUS files
-au BufRead,BufNewFile *.styl call Tabstyle_spaces()
-au BufLeave *.styl set cindent
-au BufLeave *.styl call Tabstyle_spaces_4()
-
-" Jade
-au BufRead,BufNewFile *.jade setlocal nocindent
-au BufRead,BufNewFile *.jade call Tabstyle_spaces()
-au BufLeave *.jade set cindent
-au BufLeave *.jade call Tabstyle_spaces_4()
-
-filetype indent on
+" Two spaces for STYLUS, LESS, JADE and for other
+au BufRead,BufNewFile,BufEnter *.styl,*.less,*.jade call Tabstyle_spaces()
+au BufLeave *.styl,*.less,*.jade call Tabstyle_spaces_4()
 
 " Searching
 " ******************************
