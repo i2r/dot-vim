@@ -71,6 +71,12 @@ let g:syntastic_error_symbol = '✖︎✖︎'
 let g:syntastic_warning_symbol = '∙∙'
 
 Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'svermeulen/vim-easyclip'
+let g:EasyClipAutoFormat = 1
+let g:EasyClipShareYanks = 1
+let g:EasyClipShareYanksDirectory = '$HOME/.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -151,8 +157,8 @@ set mouse=a
 
 " Improved paste in visual mode
 " *****************************
-vnoremap p "_dp
-vnoremap P "_dP
+" vnoremap p "_dp
+" vnoremap P "_dP
 
 " Turn off netrw window split
 " ***************************
@@ -400,6 +406,9 @@ noremap Ю >
 
 " Terminal helpers
 " ****************
+
+" Save yanked to clipboard
+set clipboard=unnamed
 
 " Paste Mode Switcher
 inoremap <leader>p <esc>:setlocal paste!<cr> :setlocal paste?<cr>i
