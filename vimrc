@@ -1,6 +1,7 @@
 " Init (Vundle is used because vim-plug requires Ruby)
 " ****************************************************
 set nocompatible              " be iMproved, required
+" set re=1                      " New regexp plugin
 filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -42,10 +43,11 @@ let g:polyglot_disabled = ['javascript'] " I like pangloss's version
 let g:jsx_ext_required = 0
 
 " Actual version don't work with vim 7.3
-" Plugin 'SirVer/ultisnips'
+Plugin 'SirVer/ultisnips'
 " so there is 3.0
-Plugin 'i2r/ultisnips'
-Plugin 'i2r/vim-snippets-css'
+" Plugin 'i2r/ultisnips'
+" Plugin 'i2r/vim-snippets-css'
+Plugin 'rstacruz/vim-hyperstyle'
 
 Plugin 'tmhedberg/matchit'
 Plugin 'tpope/vim-commentary'
@@ -60,6 +62,7 @@ function! StatuslineFugitive()
 endfunction
 
 Plugin 'scrooloose/syntastic'
+let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 2
@@ -69,6 +72,17 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_stl_format = ' Line %F (Σ %t) '
 let g:syntastic_error_symbol = '✖︎✖︎'
 let g:syntastic_warning_symbol = '∙∙'
+
+Plugin 'leafgarland/typescript-vim'
+Plugin 'ianks/vim-tsx'
+
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Quramy/tsuquyomi'
+let g:tsuquyomi_disable_default_mappings = 1
+nnoremap <c-]> :TsuDefinition<cr>
+nnoremap <c-w><c-]> :TsuSplitDefinition<cr>
+nnoremap <c-t> :TsuGoBack<cr>
+nnoremap <c-k> :TsuReferences<cr>
 
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-repeat'
